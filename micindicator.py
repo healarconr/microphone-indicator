@@ -75,10 +75,9 @@ class Indicator():
 
     def get_current_state_icon(self):
         if self.get_current_mic_state() == "[off]":
-            icon_name = 'mute.svg'
+            return 'audio-input-microphone-muted-symbolic'
         else:
-            icon_name = 'on.svg'
-        return self.get_resource(icon_name)
+            return 'audio-input-microphone-high-symbolic'
 
     def get_current_mic_state(self):
         ps = subprocess.Popen(("amixer", "get", "Capture"), stdout=subprocess.PIPE)
@@ -129,7 +128,7 @@ class Indicator():
         else:
             title = "Microphone is On"
         
-        self.notification.update(title)
+        self.notification.update(title, "", self.get_current_state_icon())
         self.notification.show()
 
         # creates a timer to close the notification as the 'set_timeout' Notify method is ignored by the server.
